@@ -5,6 +5,14 @@
 
 Curso de React Native da Udemy: [React Native Criando aplicativos do zero ao avançado](https://www.udemy.com/course/crusoreactnative/)
 
+React Native é um frameWork para desenvolvimento de **Apps** nativos para **Android** e **IOS** com um único código `javascript` combinado com `react`.
+
+## EXPO GO
+
+Para iniciar o projeto e realizar teste de execução utilizaremos o [Expo Go](https://docs.expo.dev/)
+
+`npx create-expo-app@latest --template`
+
 ## Uma chave e Duas Chaves
 
 Quando utilizamos duas chaves nas propriedades do componente estamos informando ao react native que iremos informar javascript.
