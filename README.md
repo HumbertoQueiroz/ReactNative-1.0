@@ -118,11 +118,25 @@ Caso seja retornado apenas uma 'tag' não precisa, mas caso retorne mais de uma 
 
 ## Componentes Padrão
 
-Todo componente tem propriedades como por exemplo `style`.
+### View
+
+Todo componente deve ter uma View mãe que engloba todo seu conteúdo.
+
+Para garantir que a View mão ocupe todo o conteúdo, podemos passar o style com `flex:1` garantindo que vai ocupar todo o espaço d atela.
+
+```js
+<View style={{flex:1}}>
+  <Text>Olá mundo!</Text>
+</View>
+```
 
 ### Style
 
+Todo componente tem propriedades como por exemplo `style`.
+
 Para ciar estilo de em um componente utilizamos a propriedade style com um igual e com a abertura de chaves e para escrever em linha o estilo precisamos abrir uma segunda chave.
+
+#### Style In line
 
 ```js
 //Exemplo de aplicação de estilo em linha  (style in line)
@@ -138,6 +152,75 @@ Importante ressaltar que os estilos do react native não tem espaço,  sempre qu
 Por padrão não informamos `px` aos estilos que utilizam pixel, somente o numero, o react native da entende que é pixel e aplica, se escrever px depois do numero gera erro.
 
 Para utilizar porcentagem para estilos como width, tem que colocar dentro de aspas e com o porcentagem depois dos números.
+
+#### Style como variável (StyleSheet)
+
+Podemos criar variáveis que vão funcionar como as "classes" do `css`, facilitando a reutilização do estilo para vários componentes, elas são criadas com o método `StyleSheet.create({})`.
+
+A criação da variável de estilo **deve ser fora do componente.**
+
+Podemos aplicar mais de uma variável de estilo para um componente, basta usar a chaves e dentro dela usar colchetes para indicar ao react native que esse componente vai receber uma lista (array) de estilos,  `{[ style01, style02]}` como exemplo abaixo:
+
+```js
+class App extends Component{
+  render(){
+    return(
+      <View style={styles.area} /* Usando Style Sheet*/>
+        <Text style={[styles.TextoPrincipal,alinhaTexto]}> Texto 01<Text/>
+        <Text style={alinhaTexto}> Texto 01<Text/>
+        <Text style={styles.TextoPrincipal}> Texto 01<Text/>
+      <View/>
+    )
+  }
+}
+
+const styles=StyleSheet.create({
+  area:{
+    marginTop:15
+  },
+  TextoPrincipal:{
+    fontSizw:25,
+    color:'#FF0000'
+  }, 
+  alinhaTexto:{
+    textAlign:'center'
+  }
+})
+```
+
+#### Flexbox
+
+Podemos utilizar o flex box para facilitar o desenvolvimento e o layout dos aplicativos no react native.
+
+Como citado na sessão sobre a View, todo componente deve ser envolvido por uma View mãe e podemos utilizar `flex:1` para que ele ocupe todo o tamanho da tela.
+
+Mas e os componentes filhos? Podemos utilizar o `flex:1` neles também, mas terá um comportamento um pouco diferente, caso tenha apenas um componente filho, ele ocupará toda a tela, mas cado tenha mais de um, o flexbox vai fazer com que ocupem o mesmo tamanho na tela, ou seja, se forem dois, cada um vai ocupar metade da tela, se for 3, cada um ocupa um terço da tela.
+
+![Exemplo do flex 1 em vários componentes filhos](image.png)
+
+Caso queira que um dos componentes filhos ocupe o dobro que outro, basta definir `flex:2`, assim ele ocupará o dobro dos demais.
+
+![Exemplo de flex 2 em vários componentes filhos](image-1.png)
+
+### TextInput
+
+Para receber dados do usuário podemos utilizar o componente `<TextInput />`
+
+#### Propriedades TextInput
+
+**placeholder:** Texto que aparece por default no campo em cinza antes do usuário iniciar a digitação. 
+
+**onChangeText:** Função que é executada quando digita no TextInput, ***por padrão ele retorna o texto digitado.***
+
+### Button
+
+Button é o mais básico botão do react native, ao ser pressionado ele executa uma função `onPress`.
+
+#### Propriedades do Button
+
+**title:** será o texto exibido dentro do `button`.
+
+**onPress:**Função que é executada quando clicado no `button`.
 
 ### Image
 
