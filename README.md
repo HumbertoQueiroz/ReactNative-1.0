@@ -17,7 +17,7 @@ Para iniciar o projeto e realizar teste de execução utilizaremos o [Expo Go](h
 
 Quando utilizamos duas chaves nas propriedades do componente estamos informando ao react native que iremos informar javascript.
 
-```js
+```javascript
 //Exemplo de duas chaves para utilizar js
 <View>
   <Text style={{ color:'red'}}>Teste!</Text>
@@ -26,7 +26,7 @@ Quando utilizamos duas chaves nas propriedades do componente estamos informando 
 
 Quando utilizamos uma chave no valor do componente informamos ao react native que iremos utilizar uma variável.
 
-```js
+```javascript
 //Exemplo de uma chave para utilizar variável
 const nome='Humberto'
 <View>
@@ -38,11 +38,13 @@ const nome='Humberto'
 
 Temos dois tipos de orientação de desenvolvimento: função e classe.
 
+### Orientação a Função
+
 Na **orientação a função** utilizaremos funções que retornam tags de componentes (pré-desenvolvidos como View, Text, etc), HTML e CSS.
 
 Exemplo:
 
-```js
+```javascript
 //JS
 export function default App(){
     return(
@@ -59,7 +61,7 @@ Já na **orientação a classe** utilizaremos `class` para abranger nossos compo
 
 Exemplo:
 
-```js
+```javascript
 //JS
 import React, { Component } from 'react';
 import { View, Text } from 'react-native'
@@ -89,7 +91,7 @@ Depois podemos chamar o componente, normalmente dentro do componente principal o
 
 Podemos passar propriedades personalizadas para nossos componentes quando chamamos eles como fazemos nos componentes padrões, a diferença vai estar lá dentro do nosso componente personalizado.
 
-```js
+```javascript
 //Exemplo de Propriedades personalizadas no componente personalizado
 <View>
   <BoxImageProps largura={'100%'} altura={'35%'}/>
@@ -98,7 +100,7 @@ Podemos passar propriedades personalizadas para nossos componentes quando chamam
 
 A diferença esta dentro do componente, onde vamos utilizar o `this.props.` para acessar a propriedade passada e utilizar ele como valor.
 
-```js
+```javascript
 //Exemplo de Componente personalizado utilizando as propriedades passadas no exemplo anterior
 class BoxImageProps extends Component{
   render(){
@@ -124,7 +126,7 @@ Todo componente deve ter uma View mãe que engloba todo seu conteúdo.
 
 Para garantir que a View mão ocupe todo o conteúdo, podemos passar o style com `flex:1` garantindo que vai ocupar todo o espaço d atela.
 
-```js
+```javascript
 <View style={{flex:1}}>
   <Text>Olá mundo!</Text>
 </View>
@@ -138,7 +140,7 @@ Para ciar estilo de em um componente utilizamos a propriedade style com um igual
 
 #### Style In line
 
-```js
+```javascript
 //Exemplo de aplicação de estilo em linha  (style in line)
 <View>
   <Text style={{ color:'red', backgroundColor: '#123456', fontSize:15 }}>Teste!</Text>
@@ -161,7 +163,7 @@ A criação da variável de estilo **deve ser fora do componente.**
 
 Podemos aplicar mais de uma variável de estilo para um componente, basta usar a chaves e dentro dela usar colchetes para indicar ao react native que esse componente vai receber uma lista (array) de estilos,  `{[ style01, style02]}` como exemplo abaixo:
 
-```js
+```javascript
 class App extends Component{
   render(){
     return(
@@ -216,11 +218,21 @@ Para receber dados do usuário podemos utilizar o componente `<TextInput />`
 
 Button é o mais básico botão do react native, ao ser pressionado ele executa uma função `onPress`.
 
+>Também é conhecido por vir com uma estilização padrão e ser difícil de estilizar, por isso é pouco usado.
+
 #### Propriedades do Button
 
 **title:** será o texto exibido dentro do `button`.
 
 **onPress:**Função que é executada quando clicado no `button`.
+
+### Button TouchableOpacity
+
+Este normalmente é o botão mais utilizado, por facilitar a estilização.
+
+>[!Note]
+>
+> Já vem com o efeito de 'click' por padrão,  vem sem estilização padrão o que facilita a estilização personalizada.
 
 ### Image
 
@@ -228,7 +240,7 @@ Para que o react native renderize a imagem na tela obrigatoriamente tem que pass
 
 Para utilizar imagens da internet através de url, tem que utilizar a propriedade source e dentro de duas chaves utilizar primeiro `uri:` e depois passar a url.
 
-```js
+```javascript
 //Exemplo de utilização de imagem  com url estática e com url variável
  const img = 'https://i.pinimg.com/474x/d4/6e/1d/d46e1db4b0fcb94555ddf037a1a9c7f9.jpg'
 <View>
@@ -237,13 +249,27 @@ Para utilizar imagens da internet através de url, tem que utilizar a propriedad
 </View>
 ```
 
+Para exibir imagens que estão dentro dos arquivos do nosso projeto, vamos utilizar o `require()` dentro das chaves da nossa propriedade `source`.
+
+```javascript
+  class App extends Component{
+    render(){
+      return(
+        <View style={styles.containerMain}>
+          <Image source={require('./src/logo_mini.svg')}/>
+        </View>
+      )
+    }
+}
+```
+
 ## States
 
 ### States na orientação a classe
 
 Para utilizar estados na orientação de classe precisa criar um construtor que recebe as propriedades atuais, definir uma propriedade `super(props)`que recebe as propriedades, depois utilizamos o `this.state` que recebe os estados, podendo passar mais de um como exemplo:
 
-```js
+```javascript
 //Exemplo de estado com classe
  class App extends Component {
   constructor (props){
@@ -262,7 +288,7 @@ Mas para isso precisamos deixar que a função possa acessar todas as propriedad
 
 Lembrando que se passar o novo valor direto na função precisa ter uma função anonima.
 
-```js
+```javascript
   class App extends Component {
     constructor (props){
       super(props);

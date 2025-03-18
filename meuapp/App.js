@@ -1,12 +1,21 @@
 import React, { Component } from "react";
-import { View, Text, Image, Button, TextInput, StyleSheet } from "react-native";
+import { View, Text, Image, Button, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 
 class App extends Component{
 
 	render(){
 		return(
 			<View style={styles.containerMain}>
-
+				<Image 
+					source={require('./src/logo_mini.png')}
+					style={styles.imgSmall}
+				/>
+				<Text>"Alguma Frase Aqui"</Text>
+				<TouchableOpacity>
+					<View>
+						<Text>Exibir Logo completa </Text>
+					</View>
+				</TouchableOpacity>
 			</View>
 		)
 	}
@@ -53,26 +62,6 @@ class AppInputAndButton extends Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	containerMain: {
-		flex: 1,
-		backgroundColor: "#f1f1f1f1",
-	},
-	input: {
-		height: 45,
-		borderWidth: 1,
-		borderColor: "#222",
-		margin: 10,
-		marginTop: "13%",
-		fontSize: 20,
-		padding: 10,
-	},
-	texto: {
-		textAlign: "center",
-		marginTop: 45,
-	},
-});
 
 class AppState extends Component {
 	constructor(props) {
@@ -174,3 +163,28 @@ class BoxImageProps extends Component {
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+	containerMain: {
+		flex: 1,
+		backgroundColor: "#f1f1f1f1",
+		paddingTop:'13%'
+	},
+	imgSmall:{
+		width:393,
+		height:290
+	},
+	input: {
+		height: 45,
+		borderWidth: 1,
+		borderColor: "#222",
+		margin: 10,
+		marginTop: "13%",
+		fontSize: 20,
+		padding: 10,
+	},
+	texto: {
+		textAlign: "center",
+		marginTop: 45,
+	},
+});
