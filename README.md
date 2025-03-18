@@ -218,6 +218,8 @@ Para receber dados do usuário podemos utilizar o componente `<TextInput />`
 
 Button é o mais básico botão do react native, ao ser pressionado ele executa uma função `onPress`.
 
+>[!Warning]
+>
 >Também é conhecido por vir com uma estilização padrão e ser difícil de estilizar, por isso é pouco usado.
 
 #### Propriedades do Button
