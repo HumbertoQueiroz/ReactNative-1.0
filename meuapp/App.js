@@ -1,110 +1,105 @@
 import React, { Component } from "react";
-import { View, Text, Image, Button, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+	View,
+	Text,
+	Image,
+	Button,
+	TextInput,
+	StyleSheet,
+	TouchableOpacity,
+	Alert,
+	ScrollView,
+	FlatList,
+} from "react-native";
+import Pessoa from "./src/Pessoas";
+import AppCronometro from "./src/componentes/Cronometro";
+import AppStorysInstagram from "./src/componentes/estiloStoryInsta"; 
+import AppFrasesDev from "./src/componentes/frasesDev";
 
-class App extends Component{
-
-	constructor(props){
+class App extends Component {
+	constructor(props) {
 		super(props);
-		this.state={
-			textoFrase:"",
-			img:require('./src/logo_mini.png'),
-			isBigImg:false
-		}
-		this.exibeFrase=this.exibeFrase.bind(this)
-		this.frases=[
-			"Que a força esteja com você. - Star Wars",
-			"A vida encontra um caminho. - Jurassic Park",
-			"Até a vitória, sempre. - Capitão América: O Primeiro Vingador",
-			"Por que caímos? Para aprendermos a nos levantar. - Batman Begins",
-			"Grandes poderes trazem grandes responsabilidades. - Homem-Aranha",
-			"A esperança é uma coisa boa, talvez a melhor de todas, e coisas boas nunca morrem. - Um Sonho de Liberdade",
-			"Oh sim, o passado pode doer. Mas, do jeito que vejo, você pode fugir dele ou aprender com ele. - O Rei Leão",
-			"O que fazemos em vida ecoa na eternidade. - Gladiador",
-			"Alguns são feitos para usar as asas, outros são feitos para usar as muletas. - Um Sonho de Liberdade",
-			"Nós vamos precisar de um barco maior. - Tubarão",
-			"Ao infinito... e além! - Toy Story",
-			"A vida não é sobre o quão duro você consegue bater, mas sobre quão duro você consegue ser atingido e continuar seguindo em frente. É assim que a vitória é conquistada! - Rocky Balboa",
-			"A única maneira de lidar com o mundo é abraçar sua loucura. - O Lado Bom da Vida",
-			"Não importa o que digam a você, palavras e ideias podem mudar o mundo. - Sociedade dos Poetas Mortos",
-			"A aventura é lá fora! - Up: Altas Aventuras",
-			"O que você espera? Que eu diga 'tudo bem'? Que tudo fique bem? O mundo não é assim, como você conta para seus filhos que ele é. - O Curioso Caso de Benjamin Button",
-			"A única maneira de vencer é jogar. - Xadrez",
-			"Não tente. Faça ou não faça. Não existe tentar. - Star Wars: Episódio V - O Império Contra-Ataca",
-			"A jornada é mais importante que o destino. - Piratas do Caribe: A Maldição do Pérola Negra",
-			"Acredite em si mesmo e tudo será possível. - Ratatouille"
+		this.state = {
+			feed: [
+				{ id:'1', nome: "Humberto", idade: 30, email: "humberto@devhumberto.com.br" },
+				{ id:'2', nome: "Caio", idade: 29, email: "caio@devhumberto.com.br" },
+				{ id:'3', nome: "França", idade: 40, email: "franca@devhumberto.com.br" },
+				{ id:'4', nome: "Queiroz", idade: 45, email: "queiroz@devhumberto.com.br" },
+				{ id:'5', nome: "Carlos", idade: 55, email: "carlos@devhumberto.com.br" },
+				{ id:'6', nome: "Roberto", idade: 35, email: "roberto@devhumberto.com.br" },
+			],
+		};
+		this.feedVariavel= [
+			{ id:'1', nome: "Humberto", idade: 30, email: "humberto@devhumberto.com.br" },
+			{ id:'2', nome: "Caio", idade: 29, email: "caio@devhumberto.com.br" },
+			{ id:'3', nome: "França", idade: 40, email: "franca@devhumberto.com.br" },
+			{ id:'4', nome: "Queiroz", idade: 45, email: "queiroz@devhumberto.com.br" },
+			{ id:'5', nome: "Carlos", idade: 55, email: "carlos@devhumberto.com.br" },
+			{ id:'6', nome: "Roberto", idade: 35, email: "roberto@devhumberto.com.br" },
 		]
 	}
 
-	exibeFrase(){
-		const numeroAleatorio= Math.floor(Math.random() * this.frases.length);
-		this.setState((prevState) => ({
-      textoFrase: `"${this.frases[numeroAleatorio]}"`,
-      isBigImg: !prevState.isBigImg,
-      img: prevState.isBigImg
-        ? require("./src/logo_mini.png")
-        : require("./src/logo_long.png"),
-    }));
-  
-	}
-
-	render(){
-		return(
-			<View style={[styles.containerMain,styles.alignCenter]}>
-				<Image 
-					source={this.state.img}
-					style={this.state.isBigImg?styles.imgBig:styles.imgSmall}
+	render() {
+		return (
+			
+			<View style={stylesMain.containerMain}>
+				<FlatList
+					style={{ backgroundColor: "#987", color: "#fff" }}
+					data={this.state.feed}
+					keyExtractor={(item)=>item.id}
+					renderItem={({ item }) => {
+						return <Pessoa data={item} />;
+					}}
 				/>
-				<Text style={styles.textoFrase}>{this.state.textoFrase}</Text>
-				<TouchableOpacity 
-					style={styles.button}
-					onPress={this.exibeFrase}
-				>
-					<View style={styles.btnArea}>
-						<Text style={styles.btnTexto}>Surpreender-se </Text>
-					</View>
-				</TouchableOpacity>
+			
 			</View>
-		)
+			
+			//<AppCronometro/>
+			//<AppStorysInstagram/>
+			//<AppFrasesDev/>
+		);
 	}
 }
+
+
+
+
 
 class AppInputAndButton extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			nome: "",
-			input:"",
+			input: "",
 		};
-		
-		this.entrar=this.entrar.bind(this);
+
+		this.entrar = this.entrar.bind(this);
 	}
 
-	entrar(){
-		if(this.state.input.length>0){
+	entrar() {
+		if (this.state.input.length > 0) {
 			this.setState({
-				nome:`Bem vindo: ${this.state.input}!`
-			})
-		} else{
+				nome: `Bem vindo: ${this.state.input}!`,
+			});
+		} else {
 			this.setState({
-				nome:'Digite seu nome para entrar.'
-			})
+				nome: "Digite seu nome para entrar.",
+			});
 		}
 	}
 
 	render() {
 		return (
-			<View style={styles.containerMain}>
+			<View style={stylesMain.containerMain}>
 				<TextInput
-					style={styles.input}
+					style={stylesMain.input}
 					placeholder="Digite seu nome"
-					onChangeText={ 
-						(text)=> {
-							this.setState({input:text})
-						}
-					}
+					onChangeText={(text) => {
+						this.setState({ input: text });
+					}}
 				/>
-				<Button title="Entrar" onPress={this.entrar}/>
-				<Text style={styles.texto}>{this.state.nome}</Text>
+				<Button title="Entrar" onPress={this.entrar} />
+				<Text style={stylesMain.texto}>{this.state.nome}</Text>
 			</View>
 		);
 	}
@@ -211,47 +206,47 @@ class BoxImageProps extends Component {
 
 export default App;
 
-const styles = StyleSheet.create({
+export const stylesMain = StyleSheet.create({
 	containerMain: {
 		flex: 1,
 		backgroundColor: "#f1f1f1f1",
-		paddingTop:'13%'
+		paddingTop: "13%",
 	},
-	alignCenter:{
-		alignItems:'center',
-		justifyContent:'center'
+	alignCenter: {
+		alignItems: "center",
+		justifyContent: "center",
 	},
-	textoFrase:{
-		fontSize:20,
-		color:'#dd7b22',
-		margin:30,
-		textAlign:'center'
+	textoFrase: {
+		fontSize: 20,
+		color: "#dd7b22",
+		margin: 30,
+		textAlign: "center",
 	},
-	button:{
-		width:230,
-		height:50,
-		borderWidth:2,
-		borderColor:'#dd7b22',
-		borderRadius:50,
+	button: {
+		width: 230,
+		height: 50,
+		borderWidth: 2,
+		borderColor: "#dd7b22",
+		borderRadius: 50,
 	},
-	btnArea:{
-		flex:1,
-		flexDirection:'',
-		justifyContent:'center',
-		alignItems:'center'
-		},
-		btnTexto:{
-			fontSize:18,
-			fontWeight:'bold',
-			color:'#dd7b22'
-		},
-	imgSmall:{
-		width:67.7,
-		height:50
+	btnArea: {
+		flex: 1,
+		flexDirection: "",
+		justifyContent: "center",
+		alignItems: "center",
 	},
-	imgBig:{
-		width:400,
-		height:74.3
+	btnTexto: {
+		fontSize: 18,
+		fontWeight: "bold",
+		color: "#dd7b22",
+	},
+	imgSmall: {
+		width: 67.7,
+		height: 50,
+	},
+	imgBig: {
+		width: 400,
+		height: 74.3,
 	},
 	input: {
 		height: 45,
@@ -266,4 +261,44 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		marginTop: 45,
 	},
+	
+	btnArea2: {
+		marginTop: 150,
+		width: "100%",
+	},
+	btnCronometro: {
+		borderWidth: 2,
+		borderColor: "#dd7b22",
+		width: 150,
+		height: 35,
+		borderRadius: 25,
+		margin: 10,
+	},
+	backgroundOrange: {
+		backgroundColor: "#dd7b22",
+	},
+	colorWhite: {
+		color: "#fff",
+	},
+	box1: {
+		height: 300,
+		backgroundColor: "red",
+		width: 150,
+	},
+	box2: {
+		height: 300,
+		backgroundColor: "green",
+		width: 150,
+	},
+	box3: {
+		height: 300,
+		backgroundColor: "yellow",
+		width: 150,
+	},
+	box4: {
+		height: 300,
+		backgroundColor: "blue",
+		width: 150,
+	},
+	
 });

@@ -87,36 +87,25 @@ Para isso precisamos criar uma `class` (depois o nome da classe) e extender as c
 
 Depois podemos chamar o componente, normalmente dentro do componente principal ou de outro componente.
 
-### Passando propriedades para Components Personalizados
+## Componentes em pastas diferentes
 
-Podemos passar propriedades personalizadas para nossos componentes quando chamamos eles como fazemos nos componentes padrões, a diferença vai estar lá dentro do nosso componente personalizado.
+Podemos organizar os componentes em arquivos diferentes para melhor organização e estruturação dos projetos.
 
-```javascript
-//Exemplo de Propriedades personalizadas no componente personalizado
-<View>
-  <BoxImageProps largura={'100%'} altura={'35%'}/>
-</View>
-```
+Podemos criar pastas que contém os arquivos dos componentes e importa-los no nosso arquivo principal `App.js`.
 
-A diferença esta dentro do componente, onde vamos utilizar o `this.props.` para acessar a propriedade passada e utilizar ele como valor.
+Caso tenha mais de um arquivo de componente em uma pasta, será necessário nomear cada um de forma distinta e realizar a importação com o nome da pasta e do arquivo, mas por padrão caso importe somente o nome da pasta, o react native vai procurar um arquivo com o nome index.js e irá utilizar ele.
 
 ```javascript
-//Exemplo de Componente personalizado utilizando as propriedades passadas no exemplo anterior
-class BoxImageProps extends Component{
-  render(){
-    return(
-      <Image 
-        source={{uri:'https://i.pinimg.com/474x/d4/6e/1d/d46e1db4b0fcb94555ddf037a1a9c7f9.jpg'}} 
-        style={{width:this.props.largura, height:this.props.altura, marginTop:15}}
-      />
-    )
-  }
-}
+//Exemplo de importação com nome da pasta e arquivo
+//Observe que existe um arquivo com o mome estiloStoryInsta.js na pasta componentes
+import AppStorysInstagram from "./src/componentes/estiloStoryInsta"; 
+
+//Exemplo de importação somente com nome da pasta
+////Observe que existe um arquivo com o mome index.js na pasta Pessoa
+import Pessoa from "./src/Pessoas";
+
+// O componente é chamado normalmente no código independente de qual forma de import utilizar
 ```
-
-### Precisa utilizar uma View mãe no componente?
-
-Caso seja retornado apenas uma 'tag' não precisa, mas caso retorne mais de uma 'tag' (componente) obrigatoriamente eles devem estar dentro de uma View mãe
 
 ## Componentes Padrão
 
@@ -265,6 +254,197 @@ Para exibir imagens que estão dentro dos arquivos do nosso projeto, vamos utili
 }
 ```
 
+### ScrollView
+
+A `View` por padrão não ceita rolagem da tela, caso altura total dos componentes sejam maior que o tamanho da tela, os últimos elementos serão cortados e não será possível acessar/visualizar.
+
+Para solucionar isso podemos utilizar a `ScrollView`, que permite a rolagem da página.
+
+```javascript
+<View style={styles.containerMain}>
+  <ScrollView >
+    <View style={styles.box1}><Text>teste</Text></View>
+    <View style={styles.box2}><Text>teste</Text></View>
+    <View style={styles.box3}><Text>teste</Text></View>
+    <View style={styles.box4}><Text>teste</Text></View>
+  </ScrollView>
+</View>
+```
+
+#### Propriedade showsVerticalScrollIndicator
+
+A propriedade `showsVerticalScrollIndicator` recebe um valor boleando indicando se vai aparecer a barra de rolagem/navegação no canto direito da tela, por padrão vem `true` que exibe, mas os designer de aplicativos modernos vem optando omitir a barra, sendo definido como `false`.
+
+```javascript
+  <ScrollView showsVerticalScrollIndicator={false}>
+  </ScrollView>
+```
+
+#### Propriedade scrollEnabled
+
+A propriedade `scrollEnabled` controla se o usuário poderá scrollar a tela ou não, por padrão a propriedade vem com `true`, mas pode ser passado false para desabilitar o rolar da tela, pode ser útil para designer.
+
+#### Propriedade horizontal
+
+A propriedade `horizontal`  é responsável por inverter o sentido da rolagem da tela par ahorizontal, por padrão vem `false`, mas alterando para `true` temos uma rolagem horizontal.
+
+>[!Note]
+>
+>Os story do Instagram, Facebook e WhatsApp são feitos assim, `ScrollView` com rolagem horizontal.
+
+**A**tenção: Ao utilizar o `horizontal={true}` vai ser habilitado uma barra de rolagem horizontal, para desativar utilizaremos uma propriedade diferente da vertical, terá que definir como `false` a propriedade `showsHorizontalScrollIndicator={false}`
+
+```javascript
+  <View style={styles.containerMain}>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <View style={styles.box1}><Text>teste</Text></View>
+      <View style={styles.box2}><Text>teste</Text></View>
+      <View style={styles.box3}><Text>teste</Text></View>
+      <View style={styles.box4}><Text>teste</Text></View>
+      <View style={styles.box2}><Text>teste</Text></View>
+      <View style={styles.box3}><Text>teste</Text></View>
+      <View style={styles.box4}><Text>teste</Text></View>
+      <View style={styles.box2}><Text>teste</Text></View>
+      <View style={styles.box3}><Text>teste</Text></View>
+      <View style={styles.box4}><Text>teste</Text></View>
+    </ScrollView>
+  </View>
+```
+
+### FlatList
+
+Usado para mater performance do aplicativo quando vai exibir listas muito grandes, tem a característica de não carregar e renderizar toda a lista na tela, renderiza apenas o que ocupa o espaço da tela e o que fica "oculto" não é carregado de início, somente quando houver o scroll ele irá carregar e renderizar mais informação, também apenas o que ocupa a tela, mantendo esse padrão tornando o aplicativo mais leve quando se trata de grandes listas.
+
+Obrigatoriamente tem três propriedades `data`que é a **lista** com (todos) os dados que poderão ser exibidos, `renderItem` será uma função anonima que **retorna** um componente com a formatação de exibição de cada item da lista que será renderizado conforme somente o conteúdo que cabe na tela, e conforme scroll outros itens serão renderizados (conforme regra explicada acima) e `keyExtractor` que define a **chave única** de cada item da lista, toda lista deve ter esta propriedade.
+
+A propriedade `data` será uma lista com objetos dentro dela, podendo ser um estado ou uma variável.
+
+```javascript
+//Exemplo do dado a ser exibido, deve ser uma lista e dentro dela ter objtos.
+  this.feedVariavel= [
+      { id:'1', nome: "Humberto", idade: 30, email: "humberto@devhumberto.com.br" }]
+//Exemplo da propriedade data recebendo os dados
+  data={this.state.feed}
+```
+
+A propriedade `renderItem` deve ter uma função anonima que **recebe** cada item da lista, para isso é necessário desconstruir o dado (passado na propriedade `data`) que recebemos por padrão com a utilização do operador de desconstrução {} dentro dos () da função.
+
+```javascript
+  renderItem={({ item }) => { }}
+```
+
+A função anonima deve obrigatoriamente **retornar** um componente, com a formatação de exibição de cada item da lista, caso tenha apenas uma linha, pode não utilizar `return`e nem as chaves, mas caso tenha mais uma linha deve utilizar.
+
+```javascript
+// Uma linha
+  renderItem={({ item }) => <Pessoa data={item} />}
+
+// Duas linhas obrigatoriamente utilizando return e chaves
+  renderItem={({ item }) => {
+    return <Pessoa data={item} />;
+  }}
+
+// Componente que é retornado na função anonima do renderItem.
+// Este componente recebe como propriedade o item e faz a estilização para retornar
+// Como o conteúdo de cada item é um objeto, acessamos cada dado dentro do objeto com this.props.data.nomeDeCadaPropriedade
+  class Pessoa extends Component {
+    render() {
+      return (
+        <View style={styles.areaPessoa}>
+          <Text style={[styles.textoPessoa]}>{this.props.data.nome}</Text>
+          <Text style={[styles.textoPessoa]}>{this.props.data.idade}</Text>
+          <Text style={[styles.textoPessoa]}>{this.props.data.email}</Text>
+        </View>
+      );
+    }
+  }
+
+```
+
+Exemplo completo de utilização do `flatList` com dados armazenados em state ou variável
+
+```javascript
+class App extends Component {
+  constructor(props) {
+    super(props);
+    //dados armazenado como state
+    this.state = {
+      feed: [
+        { id:'1', nome: "Humberto", idade: 30, email: "humberto@devhumberto.com.br" },
+        { id:'2', nome: "Caio", idade: 29, email: "caio@devhumberto.com.br" },
+        { id:'3', nome: "França", idade: 40, email: "franca@devhumberto.com.br" },
+        { id:'4', nome: "Queiroz", idade: 45, email: "queiroz@devhumberto.com.br" },
+        { id:'5', nome: "Carlos", idade: 55, email: "carlos@devhumberto.com.br" },
+        { id:'6', nome: "Roberto", idade: 35, email: "roberto@devhumberto.com.br" },
+      ],
+    };
+    //dado armazenado como variável
+    this.feedVariavel= [
+      { id:'1', nome: "Humberto", idade: 30, email: "humberto@devhumberto.com.br" },
+      { id:'2', nome: "Caio", idade: 29, email: "caio@devhumberto.com.br" },
+      { id:'3', nome: "França", idade: 40, email: "franca@devhumberto.com.br" },
+      { id:'4', nome: "Queiroz", idade: 45, email: "queiroz@devhumberto.com.br" },
+      { id:'5', nome: "Carlos", idade: 55, email: "carlos@devhumberto.com.br" },
+      { id:'6', nome: "Roberto", idade: 35, email: "roberto@devhumberto.com.br" },
+    ]
+  }
+
+  render() {
+    return (
+      <View style={styles.containerMain}>
+        <FlatList
+          style={{ backgroundColor: "#987", color: "#fff" }}
+          //Exemplo de dado como state
+          data={this.state.feed}
+          //Exemplo de dado como variável
+          //data={this.feedVariavel}
+          keyExtractor={(item)=>item.id}
+          renderItem={({ item }) => {
+            return <Pessoa data={item} />;
+          }}
+        />
+      </View>
+    );
+  }
+  }
+```
+
+### Picker
+
+
+## Componentes personalizados
+
+### Passando propriedades para Components Personalizados
+
+Podemos passar propriedades personalizadas para nossos componentes quando chamamos eles como fazemos nos componentes padrões, a diferença vai estar lá dentro do nosso componente personalizado.
+
+```javascript
+//Exemplo de Propriedades personalizadas no componente personalizado
+<View>
+  <BoxImageProps largura={'100%'} altura={'35%'}/>
+</View>
+```
+
+A diferença esta dentro do componente, onde vamos utilizar o `this.props.` para acessar a propriedade passada e utilizar ele como valor.
+
+```javascript
+//Exemplo de Componente personalizado utilizando as propriedades passadas no exemplo anterior
+class BoxImageProps extends Component{
+  render(){
+    return(
+      <Image 
+        source={{uri:'https://i.pinimg.com/474x/d4/6e/1d/d46e1db4b0fcb94555ddf037a1a9c7f9.jpg'}} 
+        style={{width:this.props.largura, height:this.props.altura, marginTop:15}}
+      />
+    )
+  }
+}
+```
+
+### Precisa utilizar uma View mãe no componente?
+
+Caso seja retornado apenas uma 'tag' não precisa, mas caso retorne mais de uma 'tag' (componente) obrigatoriamente eles devem estar dentro de uma View mãe
+
 ## States
 
 ### States na orientação a classe
@@ -326,3 +506,4 @@ Lembrando que se passar o novo valor direto na função precisa ter uma função
       )
   }
 ```
+
