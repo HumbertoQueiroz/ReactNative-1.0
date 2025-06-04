@@ -411,6 +411,109 @@ class App extends Component {
 
 ### Picker
 
+O componente `Picker` nada mais é do que uma caixa de seleção, como a do javascript.
+
+Para utilizar, é necessário instalar o `Picker`, pois ele não vem instalado por padrão nos pacotes do react-native.
+`npx expo install @react-native-picker/picker`
+
+Ele é formado por dois componentes, o `Picker`e o `Picker.Item`, sendo que o primeiro tem duas propriedades, `selectedValue` onde informados índice do item que deve ser exibido como selecionado e o `onValueChange` que recebe uma função que será executada quando houver interação com o piker.
+
+```javascript
+//Exemplo 01 com itens estáticos
+import { Picker } from "@react-native-community/picker";
+class MyPicker extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pizza: 0
+    }
+  }
+  render() {
+    return (
+      <Picker
+        selectedValue={this.states.pizza}
+        onValueChange={(itemValue, itemIndex) => this.setState({pizza:itemValue})}
+      >
+        <Picker.Item
+          key={1}
+          value={1}
+          label={"Calabresa"}
+        />
+        <Picker.Item key={2} value={2} label={"Brigadeiro"} />
+        <Picker.Item key={3} value={3} label={"Bacon"} />
+      </Picker>
+    )
+  }
+}
+```
+
+Exemplo 02 com itens dinâmicos
+
+```javascript
+//Exemplo 02 com itens dinâmicos
+import React, { Component } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker"; 
+
+
+class MyPicker extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pizza: 0,
+      itensPizzas:[
+        {key:1, nome:'Queijo', valor: 35.99},
+        {key:2, nome:'Calabresa', valor: 33.99},
+        {key:3, nome:'Brigadeiro', valor: 25},
+        {key:4, nome:'Bacon', valor: 34.99}
+      ]
+    }
+  }
+
+
+  render() {
+    let pizzasItem=this.state.itensPizzas.map((v,k)=>{
+      return <Picker.Item key={k} value={k} label={v.nome}/>
+
+    })
+    return (
+      <View style={styles.container}>
+        <Text style={styles.logo}>Menu Pizza</Text>
+        <Picker
+          selectedValue={this.state.pizza}
+          onValueChange={(itemValue, itemIndex) => this.setState({pizza: itemValue})}
+        >
+          {pizzasItem}
+          
+        </Picker>
+        <Text style={styles.pizza}>Você escolheu:</Text>
+        <Text style={[styles.pizza, {fontWeight:'bold'}]}>Pizza de {this.state.itensPizzas[this.state.pizza].nome}</Text>
+        <Text style={styles.pizza}>{this.state.itensPizzas[this.state.pizza].valor.toFixed(2)}</Text>
+      </View>
+    )
+  }
+}
+
+export default MyPicker;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 100,
+    backgroundColor:'#fff'
+  },
+  logo: {
+    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  pizza: {
+    marginTop: 15,
+    fontSize: 25,
+    textAlign: 'center'
+  }
+})
+```
 
 ## Componentes personalizados
 
