@@ -17,14 +17,15 @@ import AppStorysInstagram from "./src/componentes/estiloStoryInsta";
 import AppFrasesDev from "./src/componentes/frasesDev";
 import MyFlatList from "./src/componentes/flatList";
 import MyPicker from "./src/componentes/MyPicker";
+import MySlider from "./src/componentes/MySlider";
 
 class App extends Component {
 	
 
 	render() {
 		return (
-			
-			<MyPicker/>
+			<MySlider/>
+			//<MyPicker/>
 			//<MyFlatList/>
 			//<AppCronometro/>
 			//<AppStorysInstagram/>
