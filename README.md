@@ -515,6 +515,10 @@ const styles = StyleSheet.create({
 })
 ```
 
+### Switch
+
+Componente switch, tipo `bolean`, usado para aceitar ou não.
+
 ## Componentes personalizados
 
 ### Passando propriedades para Components Personalizados

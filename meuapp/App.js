@@ -18,13 +18,14 @@ import AppFrasesDev from "./src/componentes/frasesDev";
 import MyFlatList from "./src/componentes/flatList";
 import MyPicker from "./src/componentes/MyPicker";
 import MySlider from "./src/componentes/MySlider";
-
+import MySwitch from "./src/componentes/MySwitch";
 class App extends Component {
 	
 
 	render() {
 		return (
-			<MySlider/>
+			<MySwitch/>
+			//<MySlider/>
 			//<MyPicker/>
 			//<MyFlatList/>
 			//<AppCronometro/>
