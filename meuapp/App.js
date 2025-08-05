@@ -10,6 +10,8 @@ import {
 	Alert,
 	ScrollView,
 	FlatList,
+	SafeAreaView,
+	SafeAreaViewBase
 } from "react-native";
 import Pessoa from "./src/Pessoas";
 import AppCronometro from "./src/componentes/Cronometro";
@@ -19,18 +21,25 @@ import MyFlatList from "./src/componentes/flatList";
 import MyPicker from "./src/componentes/MyPicker";
 import MySlider from "./src/componentes/MySlider";
 import MySwitch from "./src/componentes/MySwitch";
+import BancoReactDesafio from "./src/componentes/desafio";
 class App extends Component {
 	
 
 	render() {
 		return (
-			<MySwitch/>
-			//<MySlider/>
-			//<MyPicker/>
-			//<MyFlatList/>
-			//<AppCronometro/>
-			//<AppStorysInstagram/>
-			//<AppFrasesDev/>
+			<View style={{ flex: 1, backgroundColor: "#f0f0f0" }}>
+			<BancoReactDesafio/>
+				{/* 
+					//<MySwitch/>
+				//<MySlider/>
+				//<MyPicker/>
+				//<MyFlatList/>
+				//<AppCronometro/>
+				//<AppStorysInstagram/>
+				//<AppFrasesDev/>
+				*/}
+				
+			</View>
 		);
 	}
 }
